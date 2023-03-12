@@ -1,0 +1,83 @@
+---
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
+		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<meta property="og:image" content="https://jmni.cn/avatar.png">
+		<meta name="author" content="Jmni">
+		<meta property="og:title" content="Jmni">
+		<meta property="og:image" content="https://jmni.cn/avatar.png">
+		<meta property="og:description" content="Jmni (jmni-cn), Developer.">
+		<meta property="description" content="Jmni (jmni-cn), Front-end developer.">
+		<meta name="twitter:card" content="jmni_zh">
+		<meta name="twitter:creator" content="@jmni_zh">
+		<link rel="canonical" href="https://jmni.cn/">
+		<title>{title}</title>
+		{ import.meta.env.HEAD_SCRIPTS ? <Fragment set:html={import.meta.env.HEAD_SCRIPTS} /> : null }
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--c-bg: #fbfbfb;
+		--c-fg: #111;
+		--c-scroll: #d9d9d9;
+		--c-scroll-hover: #bbbbbb;
+		scrollbar-color: var(--c-scrollbar) var(--c-bg);
+	}
+
+	html.dark {
+		--c-bg: #212129;
+		--c-fg: #ddddf0;
+		--c-scroll: #333333;
+		--c-scroll-hover: #555555;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background-color: var(--c-bg);
+		color: var(--c-fg);
+	}
+
+	main {
+		max-width: 86ch;
+		margin: 0 auto;
+		padding: 1rem 2rem;
+	}
+	.widthmain{
+    	max-width: 86ch;
+		width: 100%;
+		padding: 0 2rem;
+	}
+	html,body,main{
+		height: 100%;
+	}
+
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: var(--c-scroll);
+		border-radius: 4px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background-color: var(--c-scroll-hover);
+	}
+	::-webkit-scrollbar-track {
+		background-color: var(--c-bg);
+	}
+</style>

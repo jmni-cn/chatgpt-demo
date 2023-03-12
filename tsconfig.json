@@ -1,0 +1,9 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "module": "ESNext",
+    "jsxImportSource": "solid-js",
+    "strict": false
+  }
+}
