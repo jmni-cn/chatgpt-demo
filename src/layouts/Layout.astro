@@ -11,18 +11,19 @@ const { title } = Astro.props;
 <html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<meta property="og:image" content="https://jmni.cn/avatar.png">
 		<meta name="author" content="Jmni">
 		<meta property="og:title" content="Jmni">
 		<meta property="og:image" content="https://jmni.cn/avatar.png">
-		<meta property="og:description" content="Jmni (jmni-cn), Developer.">
-		<meta property="description" content="Jmni (jmni-cn), Front-end developer.">
+		<meta property="og:description" content="Jmni (jmni-cn) Based on OpenAI API gpt-3.5">
+		<meta property="description" content="Jmni (jmni-cn) Based on OpenAI API gpt-3.5">
+		<meta property="key" content="Jmni (jmni-cn),chat,chat-gpt,chatgpt,gpt,OpenAI">
 		<meta name="twitter:card" content="jmni_zh">
 		<meta name="twitter:creator" content="@jmni_zh">
-		<link rel="canonical" href="https://jmni.cn/">
+		<link rel="canonical" href="https://chat.jmni.cn/">
 		<title>{title}</title>
 		{ import.meta.env.HEAD_SCRIPTS ? <Fragment set:html={import.meta.env.HEAD_SCRIPTS} /> : null }
 	</head>
@@ -53,12 +54,12 @@ const { title } = Astro.props;
 	}
 
 	main {
-		max-width: 86ch;
+		max-width: 90ch;
 		margin: 0 auto;
-		padding: 1rem 2rem;
+		padding: 1rem 0rem;
 	}
 	.widthmain{
-    	max-width: 86ch;
+    	max-width: 90ch;
 		width: 100%;
 		padding: 0 2rem;
 	}

@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro'
 import Header from '../components/Header.astro'
 import Generator from '../components/Generator'
+import BackTop from '../components/BackTop.astro'
 import '../message.css'
 import '../app.css'
 import 'katex/dist/katex.min.css'
@@ -12,5 +13,6 @@ import 'highlight.js/styles/atom-one-dark.css'
   <main class='relative'>
     <Header />
     <Generator client:load />
+    <BackTop/>
   </main>
 </Layout>

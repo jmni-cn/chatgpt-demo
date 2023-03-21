@@ -1,29 +1,27 @@
 import { defineConfig } from 'astro/config'
-import vercel from '@astrojs/vercel/edge'
 import unocss from 'unocss/astro'
-import { presetUno, presetIcons } from 'unocss'
-import presetAttributify from '@unocss/preset-attributify'
-import presetTypography from '@unocss/preset-typography'
 import solidJs from '@astrojs/solid-js'
+import node from '@astrojs/node'
+import vercel from '@astrojs/vercel/edge'
+const envAdapter = () => {
+  if (process.env.OUTPUT == 'vercel') {
+    return vercel()
+  } else {
+    return node({
+      mode: 'standalone'
+    })
+  }
+}
 
 // https://astro.build/config
 export default defineConfig({
+  server: {
+    host: true, 
+  },
   integrations: [
-    unocss({
-      presets: [
-        presetAttributify(),
-        presetUno(),
-        presetIcons({
-          collections: {
-            carbon: () =>
-              import('@iconify-json/carbon').then((i) => i.icons )
-          },
-        }),
-        presetTypography(),
-      ]
-    }),
+    unocss(),
     solidJs()
   ],
   output: 'server',
-  adapter: vercel()
+  adapter: envAdapter(),
 });

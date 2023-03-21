@@ -1,17 +1,28 @@
 import type { APIRoute } from 'astro'
 import { createParser, ParsedEvent, ReconnectInterval } from 'eventsource-parser'
+import { verifySignature } from '../../utils'
 const apiKey = import.meta.env.OPENAI_API_KEY
+const sitePassword = import.meta.env.SITE_PASSWORD
 
 export const post: APIRoute = async (context) => {
   const body = await context.request.json()
-  const messages = body.messages
+  const { sign, time, messages, pass } = body
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
 
   if (!messages) {
     return new Response('No input text')
   }
-  
+  // 简单鉴权
+  if (sitePassword && !sitePassword.includes(pass)) {
+    return new Response('Invalid password')
+  }
+  // 防劫持
+  if (import.meta.env.PROD && !await verifySignature({ t: time, m: messages?.[messages.length - 1]?.content || '', }, sign)) {
+    return new Response('Invalid signature')
+  }
+  // https://api.openai.com/dashboard/billing/credit_grants
+  // 查询余额
   if( messages[messages.length-1].role == 'user' && /^sk-/.test(messages[messages.length-1].content) ){
     const grant = await fetch('https://api.openai.com/dashboard/billing/credit_grants', {
       headers: {
@@ -21,8 +32,6 @@ export const post: APIRoute = async (context) => {
     })
     return grant
   }
-// https://api.openai.com/dashboard/billing/credit_grants
-// 查询余额
   const completion = await fetch('https://api.openai.com/v1/chat/completions', {
     headers: {
       'Content-Type': 'application/json',
@@ -47,15 +56,6 @@ export const post: APIRoute = async (context) => {
             return
           }
           try {
-            // response = {
-            //   id: 'chatcmpl-6pULPSegWhFgi0XQ1DtgA3zTa1WR6',
-            //   object: 'chat.completion.chunk',
-            //   created: 1677729391,
-            //   model: 'gpt-3.5-turbo-0301',
-            //   choices: [
-            //     { delta: { content: '你' }, index: 0, finish_reason: null }
-            //   ],
-            // }
             const json = JSON.parse(data)
             const text = json.choices[0].delta?.content            
             const queue = encoder.encode(text)
